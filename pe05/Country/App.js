@@ -46,6 +46,32 @@ function CitiesStackScreen({ navigation, route, cities, addCity, addLocation }) 
   );
 }
 
+function CountriesStackScreen({ navigation, route, countries, addCountry, addCurrency }) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.primary,
+        },
+        headerTintColor: '#fff',
+      }}
+    >
+      <Stack.Screen
+        name="Countries"
+        children={(props) => (
+          <Countries {...props} countries={countries} addCountry={addCountry} addCurrency={addCurrency} />
+        )}
+      />
+      <Stack.Screen
+        name="Country"
+        children={(props) => (
+          <Country {...props} countries={countries} addCountry={addCountry} addCurrency={addCurrency} />
+        )}
+      />
+    </Stack.Navigator>
+  );
+}
+
 export default class App extends Component {
   state = {
     cities: [],
@@ -75,6 +101,19 @@ export default class App extends Component {
     ];
 
     this.setState({ cities });
+  };
+
+  addCurrency = (currency, country) => {
+    const index = this.state.countries.findIndex((item) => item.id === country.id);
+    const updatedCountry = { ...this.state.countries[index], currencies: [...this.state.countries[index].currencies, currency] };
+
+    const countries = [
+      ...this.state.countries.slice(0, index),
+      updatedCountry,
+      ...this.state.countries.slice(index + 1),
+    ];
+
+    this.setState({ countries });
   };
 
   render() {
@@ -115,9 +154,11 @@ export default class App extends Component {
           <Tab.Screen
             name="Countries"
             children={(props) => (
-              <Countries
-              {...props}
-              countries={this.state.countries}
+              <CountriesStackScreen
+                {...props}
+                countries={this.state.countries}
+                addCountry={this.addCountry}
+                addCurrency={this.addCurrency}
               />
             )}
           />

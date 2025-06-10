@@ -13,15 +13,15 @@ class Country extends React.Component {
     this.setState({ [key]: value });
   };
 
-  addLocation = () => {
-    const { addLocation, country } = this.props.route.params;
+  addCurrency = () => {
+    const { addCurrency, country } = this.props.route.params;
     const { name, info } = this.state;
 
     if (name === '' || info === '') return;
 
-    const location = { name, info };
+    const currency = { name, info };
 
-    addLocation(location, country);
+    addCurrency(currency, country);
 
     this.setState({ name: '', info: '' });
   };
@@ -34,40 +34,40 @@ class Country extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={[!updatedCountry.locations.length && { flex: 1 }]}>
+        <ScrollView contentContainerStyle={[!updatedCountry.currencies.length && { flex: 1 }]}>
           <View
             style={[
-              styles.locationsContainer,
-              !updatedCountry.locations.length && { flex: 1, justifyContent: 'center' },
+              styles.currenciesContainer,
+              !updatedCountry.currencies.length && { flex: 1, justifyContent: 'center' },
             ]}
           >
-            {!updatedCountry.locations.length && <CenterMessage message="No locations for this country!" />}
-            {updatedCountry.locations.map((location, index) => (
-              <View key={index} style={styles.locationContainer}>
-                <Text style={styles.locationName}>{location.name}</Text>
-                <Text style={styles.locationInfo}>{location.info}</Text>
+            {!updatedCountry.currencies.length && <CenterMessage message="No currencies for this country!" />}
+            {updatedCountry.currencies.map((currency, index) => (
+              <View key={index} style={styles.currencyContainer}>
+                <Text style={styles.currencyName}>{currency.name}</Text>
+                <Text style={styles.currencyInfo}>{currency.info}</Text>
               </View>
             ))}
           </View>
         </ScrollView>
         <TextInput
           onChangeText={(val) => this.onChangeText('name', val)}
-          placeholder="Location name"
+          placeholder="currency name"
           value={this.state.name}
           style={styles.input}
           placeholderTextColor="white"
         />
         <TextInput
           onChangeText={(val) => this.onChangeText('info', val)}
-          placeholder="Location info"
+          placeholder="Currency info"
           value={this.state.info}
           style={[styles.input, styles.input2]}
           placeholderTextColor="white"
         />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this.addLocation}>
+          <TouchableOpacity onPress={this.addCurrency}>
             <View style={styles.button}>
-              <Text style={styles.buttonText}>Add Location</Text>
+              <Text style={styles.buttonText}>Add Currency</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -77,7 +77,7 @@ class Country extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  locationsContainer: {
+  currenciesContainer: {
     paddingBottom: 104,
   },
   input: {
@@ -108,15 +108,15 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
   },
-  locationContainer: {
+  currencyContainer: {
     padding: 10,
     borderBottomColor: colors.primary,
     borderBottomWidth: 2,
   },
-  locationName: {
+  currencyName: {
     fontSize: 20,
   },
-  locationInfo: {
+  currencyInfo: {
     color: 'rgba(0, 0, 0, .5)',
   },
 });
